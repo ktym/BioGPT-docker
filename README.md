@@ -1,6 +1,6 @@
 # BioGPT-docker
 
-Docker file for the [BioGPT](https://github.com/microsoft/BioGPT).
+Dockerfile for the [BioGPT](https://github.com/microsoft/BioGPT).
 
 ## Build
 
@@ -25,14 +25,10 @@ Download and extract pre-trained models from [BioGPT](https://github.com/microso
 
 Mount and link the directory containing downloaded models as `${APP_DIR}/BioGPT/checkpoints`.
 Suppose if you have stored pre-trained models under the ./models directory on the host OS,
+then log in to the guest OS and create a symbolic link from the mounted directory.
 
 ```sh
 % docker run --rm -it -v $(pwd):/mnt biogpt:1.0 /bin/bash
-```
-
-then log in to the guest OS and create a symbolic link from the mounted directory.
-
-```
 root:/app/BioGPT# ln -sf /mnt/models checkpoints
 ```
 
@@ -63,7 +59,7 @@ Confirm your installation is successful.
 Run the docker container with a GPU option and confirm the host GPUs are available from the guest OS.
 
 ```sh
-% docker run --gpu --rm -it -v $(pwd):/mnt biogpt:1.0 nvidia-smi
+% docker run --gpus --rm biogpt:1.0 nvidia-smi
 ```
 
 Note: make sure the NVIDIA driver versions of the host and guest OSs should be matched.
@@ -73,7 +69,7 @@ Note: make sure the NVIDIA driver versions of the host and guest OSs should be m
 Example codes listed in the BioGPT repository are stored in the test directory for ease.
 
 ```sh
-% docker run --gpu --rm -it -v $(pwd):/mnt biogpt:1.0 nvidia-smi
+% docker run --gpus --rm -it -v $(pwd):/mnt biogpt:1.0 /bin/bash
 root:/app/BioGPT# python3.10 /mnt/test/test1.py
 root:/app/BioGPT# python3.10 /mnt/test/test2.py
 ```
