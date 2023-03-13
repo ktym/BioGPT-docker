@@ -86,7 +86,6 @@ Then test it without `--gpu` option.
 % docker run --rm -it -v $(pwd):/mnt biogpt-nogpu:1.0 /bin/bash
 root:/app/BioGPT# ln -sf /mnt/models checkpoints
 root:/app/BioGPT# python /mnt/test/test1-nogpu.py
-root:/app/BioGPT# python /mnt/test/test2-nogpu.py
 ```
 
 ## License
