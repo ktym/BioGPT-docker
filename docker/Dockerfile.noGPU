@@ -1,0 +1,37 @@
+# https://github.com/microsoft/BioGPT
+FROM python:3.10.10
+
+ENV APP_DIR=/home/biogpt
+WORKDIR $APP_DIR
+
+RUN pip install --upgrade pip
+
+# PyTorch
+RUN pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cpu
+
+# fairseq
+RUN git clone https://github.com/pytorch/fairseq
+RUN (cd fairseq; git checkout v0.12.0; pip install .; python setup.py build_ext --inplace)
+
+# Moses
+RUN git clone https://github.com/moses-smt/mosesdecoder.git
+ENV MOSES=${APP_DIR}/mosesdecoder
+
+# fastBPE
+RUN git clone https://github.com/glample/fastBPE.git
+ENV FASTBPE=${APP_DIR}/fastBPE
+RUN (cd fastBPE; g++ -std=c++11 -pthread -O3 fastBPE/main.cc -IfastBPE -o fast; python setup.py build_ext --inplace; pip install .)
+
+# sacremoses
+RUN pip install sacremoses
+
+# sklearn
+RUN pip install scikit-learn
+
+# BioGPT
+RUN git clone https://github.com/microsoft/BioGPT.git
+
+WORKDIR $APP_DIR/BioGPT
+
+
+
